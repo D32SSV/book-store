@@ -7,11 +7,16 @@ import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 import BooksTable from "../components/home/BooksTable";
 import BooksCard from "../components/home/BooksCard";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function Home() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showType, setShowType] = useState("table");
+  const [showType, setShowType] = useLocalStorage("showType", "table");
+
+  function handleStyleChange() {
+    setShowType((prev) => (prev === "table" ? "card" : "table"));
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -30,18 +35,12 @@ function Home() {
   return (
     <div className="p-4">
       <div className="flex justify-center items-center gap-x-4">
-        View Style : 
+        View Style :
         <button
           className="bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg"
-          onClick={() => setShowType("table")}
+          onClick={() => handleStyleChange()}
         >
-          Table
-        </button>
-        <button
-          className="bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg"
-          onClick={() => setShowType("card")}
-        >
-          Card
+          {showType === "table" ? "Card Style" : "Table Style"}
         </button>
       </div>
       <div className="flex justify-between items-center">
